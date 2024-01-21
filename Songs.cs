@@ -13,44 +13,91 @@ namespace lab_05
 
         public void AddSong(string songName)
         {
-            songsQueue.Enqueue(songName);
-            Console.WriteLine($"{songName} is added to your playlist.");
+            try
+            {
+                songsQueue.Enqueue(songName);
+                Console.Clear();
+                Console.WriteLine($"'{songName}' is added to your playlist.");
+                Console.WriteLine("");
+                DisplayNextSong();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"Error in adding song : {ex.Message}");
+            }
+
         }
 
         public void PlayNextSong()
         {
-            if ( songsQueue.Count == 0 )
+            try
             {
-                Console.WriteLine("Your Playlist is empty. Please add songs to your playlist.");
-            }
+                Console.Clear();
+                if (songsQueue.Count == 0)
+                {
+                    Console.WriteLine("Your Playlist is empty. Please add songs to your playlist.");
+                }
 
-            string currentSong = songsQueue.Dequeue();
-            songsStack.Push(currentSong);
-            Console.WriteLine($"Now playing : {currentSong}");
+                string currentSong = songsQueue.Dequeue();
+                songsStack.Push(currentSong);
+                Console.WriteLine($"Now playing : {currentSong}");
+                Console.WriteLine("");
+                DisplayNextSong();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"Error in playing next song: {ex.Message}");
+            }
         }
 
-        public void SkippedSong()
+        public void SkipSong()
         {
-            if (songsQueue.Count == 0)
+            try
             {
-                Console.WriteLine("Your Playlist is empty. Please add songs to your playlist.");
-            }
+                Console.Clear();
+                if (songsQueue.Count == 0)
+                {
+                    Console.WriteLine("Your Playlist is empty. Please add songs to your playlist.");
+                }
 
-            string skippedSong = songsQueue.Dequeue();
-            Console.WriteLine($"Skipped : {skippedSong}");
+                string skippedSong = songsQueue.Dequeue();
+                Console.WriteLine($"Skipped : {skippedSong}");
+
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"Error in skipping the next song: {ex.Message}");
+            }
         }
 
         public void RewindSong()
         {
-            if( songsStack.Count == 0 )
+            try
             {
-                Console.WriteLine("Sorry, there is no previous song to rewind.");
-                return;
-            }
+                Console.Clear();
+                if (songsStack.Count == 0)
+                {
+                    Console.WriteLine("Sorry, there is no previous song to rewind.");
+                    return;
+                }
 
-            string previousSong = songsStack.Pop();
-            songsQueue.Enqueue(previousSong);
-            Console.WriteLine($"Rewinding to {previousSong}");
+                string previousSong = songsStack.Pop();
+                songsQueue.Enqueue(previousSong);
+                Console.WriteLine($"Rewinding to {previousSong}");
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.WriteLine($"Error in rewinding the song: {ex.Message}");
+            }
+        }
+
+        public void DisplayNextSong()
+        {
+            Console.WriteLine($"Next song: {songsQueue.Peek()}");
         }
     }
 }
